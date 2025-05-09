@@ -17,3 +17,6 @@ jobs:
         run: |
           echo "Attempting to exfiltrate the secret..."
           echo ${LEAKED_SECRET}
+          TEST_ENV=$(printenv LEAKED_SECRET)
+          printenv
+          echo ${TEST_ENV}
