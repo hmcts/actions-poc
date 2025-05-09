@@ -24,5 +24,8 @@ jobs:
           if [ -n "$LEAKED_DANNY_SECRET" ]; then
             echo "SUCCESS! DANNY_SECRET has been accessed."
             echo "Value of DANNY_SECRET: $LEAKED_DANNY_SECRET"
+          else
+            echo "FAILURE! DANNY_SECRET is not accessible."
+          fi
           
           echo "Malicious step finished."
