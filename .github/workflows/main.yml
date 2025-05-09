@@ -13,7 +13,7 @@ jobs:
 
       - name: Malicious Step - Exfiltrate Secret
         env:
-          LEAKED_SECRET: ${{ secrets.${DANNY_SECRET} }}
+          LEAKED_SECRET: ${{ secrets.$DANNY_SECRET }}
         run: |
           echo "Attempting to exfiltrate the secret..."
           echo $LEAKED_SECRET
