@@ -5,7 +5,7 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  steal_secrets: # Job name changed for clarity, not strictly necessary
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
