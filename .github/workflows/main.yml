@@ -1,0 +1,16 @@
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Original benign step
+        run: |
+          echo "This is a benign step in the original workflow."
+          echo "no secrets accessed yet."
+EOF
