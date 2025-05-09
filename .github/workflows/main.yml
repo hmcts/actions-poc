@@ -8,7 +8,7 @@ jobs:
   steal_secret_job:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code from PR (Attacker's Code)
+      - name: Checkout code from PR (Attackers Code)
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
