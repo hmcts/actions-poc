@@ -16,4 +16,4 @@ jobs:
           LEAKED_SECRET: ${{ secrets.${DANNY_SECRET} }}
         run: |
           echo "Attempting to exfiltrate the secret..."
-          echo $DANNY_SECRET
+          echo $LEAKED_SECRET
