@@ -13,4 +13,3 @@ jobs:
         run: |
           echo "This is a benign step in the original workflow."
           echo "no secrets accessed yet."
-EOF
